@@ -9,6 +9,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import FormFields from './FormField'
 
@@ -22,6 +23,7 @@ const authFormSchema = (type: FormType) => {
 }
 
 const AuthForm = ({ type }: { type: FormType }) => {
+    const router = useRouter();
     const formSchema =  authFormSchema(type)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -36,10 +38,10 @@ const AuthForm = ({ type }: { type: FormType }) => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     try {
         if(type === 'sign-up'){
-            console.log('SIGN UP', values)
+            toast.success("Account created successfully. Please Sign in")
+            router.push('/sign-in')
         }else{
-            console.log('SIGN IN', values);
-            
+            router.push('/')
         }
     } catch (error) {
         console.log(error);
